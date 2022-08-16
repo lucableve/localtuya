@@ -161,6 +161,9 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
         self._state = None
         self._target_temperature = None
         self._current_temperature = None
+        self._current_temperature_correction = self._config.get(CONF_CURRENT_TEMPERATURE_CORRECTION, 0)
+        self._current_max_temperature_setting = self._config.get(CONF_MAX_MANUAL_TEMP, 40)
+        self._current_min_temperature_setting = self._config.get(CONF_MIN_MANUAL_TEMP, 12)
         self._hvac_mode = None
         self._preset_mode = None
         self._hvac_action = None
@@ -343,7 +346,7 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
         if self.has_config(CONF_MIN_TEMP_DP):
             return self.dps_conf(CONF_MIN_TEMP_DP)
         if self.has_config(CONF_MIN_MANUAL_TEMP):
-            return self.dps_conf(CONF_MIN_MANUAL_TEMP)
+            return  self._current_min_temperature_setting
         return DEFAULT_MIN_TEMP
 
     @property
@@ -352,7 +355,7 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
         if self.has_config(CONF_MAX_TEMP_DP):
             return self.dps_conf(CONF_MAX_TEMP_DP)
         if self.has_config(CONF_MAX_MANUAL_TEMP):
-            return self.dps_conf(CONF_MAX_MANUAL_TEMP)
+            return  self._current_max_temperature_setting
         return DEFAULT_MAX_TEMP
 
     def status_updated(self):
@@ -371,7 +374,7 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
 
          if self.has_config(CONF_CURRENT_TEMPERATURE_CORRECTION):
                     self._current_temperature = (
-                        self.dps_conf(CONF_CURRENT_TEMPERATURE_DP) + self.dps_conf(CONF_CURRENT_TEMPERATURE_CORRECTION)
+                        self.dps_conf(CONF_CURRENT_TEMPERATURE_DP) + self._current_temperature_correction
                     )
 
         if self._has_presets:
