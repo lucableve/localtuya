@@ -117,11 +117,14 @@ def flow_schema(dps):
     return {
         vol.Optional(CONF_TARGET_TEMPERATURE_DP): vol.In(dps),
         vol.Optional(CONF_CURRENT_TEMPERATURE_DP): vol.In(dps),
+        vol.Optional(CONF_CURRENT_TEMPERATURE_CORRECTION): str,
         vol.Optional(CONF_TEMPERATURE_STEP): vol.In(
             [PRECISION_WHOLE, PRECISION_HALVES, PRECISION_TENTHS]
         ),
-        vol.Optional(CONF_MAX_TEMP_DP): str,
-        vol.Optional(CONF_MIN_TEMP_DP): str,
+        vol.Optional(CONF_MAX_TEMP_DP): vol.In(dps),
+        vol.Optional(CONF_MIN_TEMP_DP): vol.In(dps),
+        vol.Optional(CONF_MAX_MANUAL_TEMP): str,
+        vol.Optional(CONF_MIN_MANUAL_TEMP): str,
         vol.Optional(CONF_PRECISION): vol.In(
             [PRECISION_WHOLE, PRECISION_HALVES, PRECISION_TENTHS]
         ),
@@ -339,6 +342,8 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
         """Return the minimum temperature."""
         if self.has_config(CONF_MIN_TEMP_DP):
             return self.dps_conf(CONF_MIN_TEMP_DP)
+        if self.has_config(CONF_MIN_MANUAL_TEMP):
+            return self.dps_conf(CONF_MIN_MANUAL_TEMP)
         return DEFAULT_MIN_TEMP
 
     @property
@@ -346,6 +351,8 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
         """Return the maximum temperature."""
         if self.has_config(CONF_MAX_TEMP_DP):
             return self.dps_conf(CONF_MAX_TEMP_DP)
+        if self.has_config(CONF_MAX_MANUAL_TEMP):
+            return self.dps_conf(CONF_MAX_MANUAL_TEMP)
         return DEFAULT_MAX_TEMP
 
     def status_updated(self):
@@ -361,6 +368,11 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
             self._current_temperature = (
                 self.dps_conf(CONF_CURRENT_TEMPERATURE_DP) * self._precision
             )
+
+         if self.has_config(CONF_CURRENT_TEMPERATURE_CORRECTION):
+                    self._current_temperature = (
+                        self.dps_conf(CONF_CURRENT_TEMPERATURE_DP) + CONF_CURRENT_TEMPERATURE_CORRECTION
+                    )
 
         if self._has_presets:
             if (
