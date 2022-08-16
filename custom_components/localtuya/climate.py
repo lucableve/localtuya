@@ -120,7 +120,7 @@ def flow_schema(dps):
     return {
         vol.Optional(CONF_TARGET_TEMPERATURE_DP): vol.In(dps),
         vol.Optional(CONF_CURRENT_TEMPERATURE_DP): vol.In(dps),
-        vol.Optional(CONF_CURRENT_TEMPERATURE_CORRECTION, default=0.0): float,
+        vol.Optional(CONF_CURRENT_TEMPERATURE_CORRECTION, default=0): str,
 
         vol.Optional(CONF_TEMPERATURE_STEP): vol.In(
             [PRECISION_WHOLE, PRECISION_HALVES, PRECISION_TENTHS]
@@ -167,7 +167,7 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
         self._state = None
         self._target_temperature = None
         self._current_temperature = None
-        self._current_temperature_correction = self._config.get(CONF_CURRENT_TEMPERATURE_CORRECTION, 0)
+        self._current_temperature_correction = float(self._config.get(CONF_CURRENT_TEMPERATURE_CORRECTION, 0))
         self._current_max_temperature_setting = self._config.get(CONF_MAX_MANUAL_TEMP, 40)
         self._current_min_temperature_setting = self._config.get(CONF_MIN_MANUAL_TEMP, 12)
         self._hvac_mode = None
@@ -374,9 +374,9 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
             )
 
         if self.has_config(CONF_CURRENT_TEMPERATURE_DP):
-            self._current_temperature = ((
+            self._current_temperature = round((
                 self.dps_conf(CONF_CURRENT_TEMPERATURE_DP) * self._precision
-            ) +  + float(self._current_temperature_correction))
+            ) +  self._current_temperature_correction,1)
 
 
         if self._has_presets:
