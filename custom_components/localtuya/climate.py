@@ -120,12 +120,17 @@ def flow_schema(dps):
     return {
         vol.Optional(CONF_TARGET_TEMPERATURE_DP): vol.In(dps),
         vol.Optional(CONF_CURRENT_TEMPERATURE_DP): vol.In(dps),
+        vol.Optional(CONF_CURRENT_TEMPERATURE_CORRECTION, default=0): str,
 
         vol.Optional(CONF_TEMPERATURE_STEP): vol.In(
             [PRECISION_WHOLE, PRECISION_HALVES, PRECISION_TENTHS]
         ),
         vol.Optional(CONF_MAX_TEMP_DP): vol.In(dps),
         vol.Optional(CONF_MIN_TEMP_DP): vol.In(dps),
+
+        vol.Optional(CONF_MAX_MANUAL_TEMP, default=40): int,
+        vol.Optional(CONF_MIN_MANUAL_TEMP, default=0): int,
+
         vol.Optional(CONF_PRECISION): vol.In(
             [PRECISION_WHOLE, PRECISION_HALVES, PRECISION_TENTHS]
         ),
@@ -144,10 +149,6 @@ def flow_schema(dps):
             [PRECISION_WHOLE, PRECISION_HALVES, PRECISION_TENTHS]
         ),
         vol.Optional(CONF_HEURISTIC_ACTION): bool,
-
-        vol.Optional(CONF_MIN_MANUAL_TEMP, default=0): vol.Range(min=0, max=25),
-        vol.Optional(CONF_MAX_MANUAL_TEMP, default=40): vol.Range(min=0, max=60),
-        vol.Optional(CONF_CURRENT_TEMPERATURE_CORRECTION): float,
     }
 
 
@@ -377,9 +378,9 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
                 self.dps_conf(CONF_CURRENT_TEMPERATURE_DP) * self._precision
             )
 
-        self._current_temperature = (
-            self.dps_conf(CONF_CURRENT_TEMPERATURE_DP) + self._current_temperature_correction
-        )
+        self._current_temperature = round(
+            self.dps_conf(CONF_CURRENT_TEMPERATURE_DP) + float(self._current_temperature_correction)
+       ,1)
 
         if self._has_presets:
             if (
