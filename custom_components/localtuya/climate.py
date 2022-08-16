@@ -52,6 +52,9 @@ from .const import (
     CONF_TARGET_PRECISION,
     CONF_TARGET_TEMPERATURE_DP,
     CONF_TEMPERATURE_STEP,
+    CONF_MIN_MANUAL_TEMP,
+    CONF_MAX_MANUAL_TEMP,
+    CONF_CURRENT_TEMPERATURE_CORRECTION
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -117,7 +120,8 @@ def flow_schema(dps):
     return {
         vol.Optional(CONF_TARGET_TEMPERATURE_DP): vol.In(dps),
         vol.Optional(CONF_CURRENT_TEMPERATURE_DP): vol.In(dps),
-        vol.Optional(CONF_CURRENT_TEMPERATURE_CORRECTION, default=0): vol.Range(min=-5, max=5),
+        vol.Optional(CONF_CURRENT_TEMPERATURE_CORRECTION): float,
+
         vol.Optional(CONF_TEMPERATURE_STEP): vol.In(
             [PRECISION_WHOLE, PRECISION_HALVES, PRECISION_TENTHS]
         ),
