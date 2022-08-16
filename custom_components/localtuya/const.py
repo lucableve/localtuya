@@ -94,6 +94,9 @@ CONF_HVAC_ACTION_DP = "hvac_action_dp"
 CONF_HVAC_ACTION_SET = "hvac_action_set"
 CONF_ECO_DP = "eco_dp"
 CONF_ECO_VALUE = "eco_value"
+CONF_MIN_MANUAL_TEMP = "min_manual_temperature"
+CONF_MAX_MANUAL_TEMP = "max_manual_temperature"
+CONF_CURRENT_TEMPERATURE_CORRECTION = "current_temperature_correction"
 
 # vacuum
 CONF_POWERGO_DP = "powergo_dp"

@@ -181,7 +181,10 @@
                     "preset_set": "Presets Set (optional)",
                     "eco_dp": "Eco DP (optional)",
                     "eco_value": "Eco value (optional)",
-                    "heuristic_action": "Enable heuristic action (optional)"
+                    "heuristic_action": "Enable heuristic action (optional)",
+                    "max_manual_temperature": "Manual Max Temperature (optional)",
+                    "min_manual_temperature": "Manual Min Temperature (optional)",
+                    "current_temperature_correction": "Value correction current temperature"
                 }
             }
         }

@@ -181,7 +181,10 @@
                     "preset_set": "Set di preset (opzionale)",
                     "eco_dp": "DP per Eco (opzionale)",
                     "eco_value": "Valore Eco (opzionale)",
-                    "heuristic_action": "Abilita azione euristica (opzionale)"
+                    "heuristic_action": "Abilita azione euristica (opzionale)",
+                    "max_manual_temperature": "Impostazione manuale temperatura massima (opzionale)",
+                    "min_manual_temperature": "Impostazione manuale temperatura minima (opzionale)",
+                    "current_temperature_correction": "Valore di correzione temeperatura corrente (opzionale)"
                 }
             }
         }
