@@ -371,7 +371,7 @@ class LocaltuyaClimate(LocalTuyaEntity, ClimateEntity):
 
          if self.has_config(CONF_CURRENT_TEMPERATURE_CORRECTION):
                     self._current_temperature = (
-                        self.dps_conf(CONF_CURRENT_TEMPERATURE_DP) + CONF_CURRENT_TEMPERATURE_CORRECTION
+                        self.dps_conf(CONF_CURRENT_TEMPERATURE_DP) + self.dps_conf(CONF_CURRENT_TEMPERATURE_CORRECTION)
                     )
 
         if self._has_presets:
