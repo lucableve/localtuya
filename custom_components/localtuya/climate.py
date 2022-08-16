@@ -117,7 +117,7 @@ def flow_schema(dps):
     return {
         vol.Optional(CONF_TARGET_TEMPERATURE_DP): vol.In(dps),
         vol.Optional(CONF_CURRENT_TEMPERATURE_DP): vol.In(dps),
-        vol.Optional(CONF_CURRENT_TEMPERATURE_CORRECTION): float,
+        vol.Optional(CONF_CURRENT_TEMPERATURE_CORRECTION): int,
         vol.Optional(CONF_TEMPERATURE_STEP): vol.In(
             [PRECISION_WHOLE, PRECISION_HALVES, PRECISION_TENTHS]
         ),
