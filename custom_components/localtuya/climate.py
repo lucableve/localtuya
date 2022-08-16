@@ -120,8 +120,8 @@ def flow_schema(dps):
         vol.Optional(CONF_TEMPERATURE_STEP): vol.In(
             [PRECISION_WHOLE, PRECISION_HALVES, PRECISION_TENTHS]
         ),
-        vol.Optional(CONF_MAX_TEMP_DP): vol.In(dps),
-        vol.Optional(CONF_MIN_TEMP_DP): vol.In(dps),
+        vol.Optional(CONF_MAX_TEMP_DP): str,
+        vol.Optional(CONF_MIN_TEMP_DP): str,
         vol.Optional(CONF_PRECISION): vol.In(
             [PRECISION_WHOLE, PRECISION_HALVES, PRECISION_TENTHS]
         ),
